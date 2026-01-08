@@ -130,24 +130,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Detectar se está no navegador (dev mode) ou no CEF (produção)
     const isBrowser = (typeof Cef === 'undefined');
-    
-    if (isBrowser) {
-        // Modo navegador: mostrar imediatamente
+
+    const showPhoneNow = () => {
         elements.phoneContainer.style.display = 'block';
+        document.body.style.background = 'transparent';
         setTimeout(() => {
             elements.phoneContainer.classList.add('visible');
         }, 50);
+    };
+
+    if (isBrowser) {
+        // Modo navegador: mostrar imediatamente
+        showPhoneNow();
         console.log('[Celular2] Modo navegador - exibindo imediatamente');
     } else {
-        // Modo CEF: começa oculto, espera evento do servidor
-        elements.phoneContainer.style.display = 'none';
-        
+        // Modo CEF: abrir imediatamente (evita race condition do evento e tela "congelada")
+        showPhoneNow();
+
         if (Cef.registerEventCallback) {
             Cef.registerEventCallback('celularShow', function() {
                 openPhoneWithCommand();
             });
+
+            // Recebe dados do servidor (wallpaper, escala, saldos)
+            Cef.registerEventCallback('setCelularData', function(jsonData) {
+                try {
+                    const data = JSON.parse(jsonData || '{}');
+
+                    if (data.passaporte) state.myPhone = String(data.passaporte);
+
+                    if (typeof data.saldoNubank === 'number') state.nubankBalance = data.saldoNubank;
+                    if (typeof data.saldoDouble === 'number') state.doubleBalance = data.saldoDouble;
+
+                    if (typeof data.scale === 'number') state.scale = data.scale;
+
+                    if (typeof data.wallpaper === 'string' && data.wallpaper.length) {
+                        state.wallpaper = data.wallpaper.includes('assets/') ? data.wallpaper : `assets/${data.wallpaper}`;
+                    }
+
+                    applyWallpaper();
+                    applyInitialScale();
+                } catch (e) {
+                    console.error('[Celular2] Erro ao parsear setCelularData:', e);
+                }
+            });
         }
-        console.log('[Celular2] Modo CEF - aguardando comando /celular');
+
+        // Handshake: avisar o servidor que a UI carregou (para ele reenviar dados com segurança)
+        try {
+            if (Cef.trigger) Cef.trigger('celularReady');
+            else if (Cef.emit) Cef.emit('celularReady');
+            else if (Cef.call) Cef.call('celularReady');
+        } catch (e) {
+            // ignore
+        }
+
+        console.log('[Celular2] Modo CEF - pronto');
     }
 });
 
