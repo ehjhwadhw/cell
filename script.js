@@ -132,24 +132,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const isBrowser = (typeof Cef === 'undefined');
 
     const showPhoneNow = () => {
+        // Evita "piscada": começa invisível e só aparece no próximo frame
+        elements.phoneContainer.classList.remove('closing');
+        elements.phoneContainer.classList.remove('visible');
         elements.phoneContainer.style.display = 'block';
         document.body.style.background = 'transparent';
-        setTimeout(() => {
+
+        requestAnimationFrame(() => {
             elements.phoneContainer.classList.add('visible');
-        }, 50);
+        });
+    };
+
+    const hidePhoneNow = () => {
+        elements.phoneContainer.classList.remove('visible');
+        elements.phoneContainer.classList.add('closing');
+
+        setTimeout(() => {
+            elements.phoneContainer.classList.remove('closing');
+            elements.phoneContainer.style.display = 'none';
+            // Reset to lock screen for next open
+            state.isLocked = true;
+            elements.lockScreen.classList.remove('hidden');
+            elements.homeScreen.classList.add('hidden');
+            // Reset app state
+            state.currentApp = null;
+            state.currentScreen = null;
+            elements.appContainer.classList.add('hidden');
+            elements.appContainer.innerHTML = '';
+        }, 300);
     };
 
     if (isBrowser) {
-        // Modo navegador: mostrar imediatamente
+        // Modo navegador: mostrar imediatamente para teste
         showPhoneNow();
         console.log('[Celular2] Modo navegador - exibindo imediatamente');
     } else {
-        // Modo CEF: abrir imediatamente (evita race condition do evento e tela "congelada")
-        showPhoneNow();
+        // Modo CEF: começa OCULTO (igual exemplo funcional), espera evento celularShow
+        elements.phoneContainer.style.display = 'none';
 
         if (Cef.registerEventCallback) {
+            // Quando servidor manda mostrar
             Cef.registerEventCallback('celularShow', function() {
-                openPhoneWithCommand();
+                showPhoneNow();
+                console.log('[Celular2] celularShow recebido');
+            });
+
+            // Quando servidor manda ocultar
+            Cef.registerEventCallback('celularHide', function() {
+                hidePhoneNow();
+                console.log('[Celular2] celularHide recebido');
             });
 
             // Recebe dados do servidor (wallpaper, escala, saldos)
@@ -176,16 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Handshake: avisar o servidor que a UI carregou (para ele reenviar dados com segurança)
-        try {
-            if (Cef.trigger) Cef.trigger('celularReady');
-            else if (Cef.emit) Cef.emit('celularReady');
-            else if (Cef.call) Cef.call('celularReady');
-        } catch (e) {
-            // ignore
-        }
-
-        console.log('[Celular2] Modo CEF - pronto');
+        console.log('[Celular2] Modo CEF - aguardando celularShow');
     }
 });
 
@@ -235,16 +257,24 @@ function handleHomeIndicatorClick() {
 }
 
 function closePhone() {
-    // Disparar evento CEF IMEDIATAMENTE para liberar o foco do jogo
+    // No CEF: peça para o servidor ocultar (ele manda celularHide de volta)
     if (typeof Cef !== 'undefined') {
-        if (Cef.trigger) Cef.trigger('celularClose');
-        else if (Cef.emit) Cef.emit('celularClose');
-        else if (Cef.call) Cef.call('celularClose');
+        try {
+            Cef.sendEvent('celularClose', '1');
+        } catch (e) {
+            // Fallback para métodos antigos
+            if (Cef.trigger) Cef.trigger('celularClose');
+            else if (Cef.emit) Cef.emit('celularClose');
+            else if (Cef.call) Cef.call('celularClose');
+        }
+        console.log('[Celular2] celularClose enviado');
+        return;
     }
-    
+
+    // Modo navegador: animação normal
     elements.phoneContainer.classList.remove('visible');
     elements.phoneContainer.classList.add('closing');
-    
+
     setTimeout(() => {
         elements.phoneContainer.classList.remove('closing');
         elements.phoneContainer.style.display = 'none';
@@ -253,8 +283,8 @@ function closePhone() {
         state.isLocked = true;
         elements.lockScreen.classList.remove('hidden');
         elements.homeScreen.classList.add('hidden');
-    }, 500);
-    
+    }, 300);
+
     console.log('[Celular2] Celular fechado');
 }
 
