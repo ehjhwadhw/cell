@@ -1,0 +1,3059 @@
+/* ============================================
+   CELULAR 2 - Estilos Completos
+   Idêntico ao React
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 15%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+/* Phone Container - Wrapper for positioning */
+.phone-container {
+    position: relative;
+    transform: translateY(120%);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.phone-container.visible {
+    transform: translateY(0);
+}
+
+.phone-container.closing {
+    transform: translateY(120%);
+    transition: transform 0.3s ease-in;
+}
+
+/* Phone Frame - The outer black border of the phone */
+.phone-frame {
+    position: relative;
+    width: 280px;
+    height: 580px;
+    background: #1a1a1a;
+    border-radius: 45px;
+    padding: 3px;
+    box-shadow: 0 0 0 2px #2a2a2a, 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+}
+
+/* Phone Bezel - The inner screen area */
+.phone-bezel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #0d0d0d;
+    border-radius: 42px;
+    overflow: hidden;
+}
+
+/* Dynamic Island */
+.dynamic-island {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 28px;
+    background: #000;
+    border-radius: 9999px;
+    z-index: 200;
+}
+
+/* Screen Content */
+.screen-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 42px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Side Buttons */
+.volume-up {
+    position: absolute;
+    left: -2px;
+    top: 120px;
+    width: 3px;
+    height: 30px;
+    background: #2a2a2a;
+    border-radius: 2px 0 0 2px;
+}
+
+.volume-down {
+    position: absolute;
+    left: -2px;
+    top: 160px;
+    width: 3px;
+    height: 30px;
+    background: #2a2a2a;
+    border-radius: 2px 0 0 2px;
+}
+
+.silent-switch {
+    position: absolute;
+    left: -2px;
+    top: 85px;
+    width: 3px;
+    height: 18px;
+    background: #2a2a2a;
+    border-radius: 2px 0 0 2px;
+}
+
+.power-button {
+    position: absolute;
+    right: -2px;
+    top: 140px;
+    width: 3px;
+    height: 45px;
+    background: #2a2a2a;
+    border-radius: 0 2px 2px 0;
+}
+
+/* Lock Screen */
+.lock-screen {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 64px 0;
+    z-index: 20;
+}
+
+.lock-time-container {
+    text-align: center;
+    margin-top: 32px;
+}
+
+.lock-time {
+    color: white;
+    font-size: 48px;
+    font-weight: 300;
+    letter-spacing: -1px;
+}
+
+.lock-date {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    margin-top: 4px;
+    text-transform: capitalize;
+}
+
+.fingerprint-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.fingerprint-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.fingerprint-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.fingerprint-btn.scanning {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+}
+
+.fingerprint-btn.complete {
+    background: rgba(52, 199, 89, 0.5);
+}
+
+.fingerprint-icon {
+    width: 32px;
+    height: 32px;
+    filter: brightness(0) invert(1);
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.fingerprint-btn.scanning .fingerprint-icon {
+    opacity: 1;
+    animation: pulse 0.8s ease-in-out infinite;
+}
+
+.fingerprint-btn.complete .fingerprint-icon {
+    opacity: 1;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.fingerprint-text {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+}
+
+/* Home Screen */
+.home-screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 20;
+}
+
+/* Close Phone Button */
+.close-phone-btn {
+    position: absolute;
+    top: 50px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.close-phone-btn:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.close-phone-btn:active {
+    transform: scale(0.9);
+}
+
+.close-phone-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Status Bar */
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 56px 24px 8px;
+    color: white;
+    font-size: 12px;
+}
+
+.status-icons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.status-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* App Grid */
+.app-grid {
+    flex: 1;
+    padding: 24px;
+    padding-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    align-content: start;
+}
+
+.app-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    overflow: hidden;
+}
+
+.app-icon:hover {
+    transform: scale(1.05);
+}
+
+.app-icon:active {
+    transform: scale(0.95);
+}
+
+.app-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.app-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.whatsapp-icon { background: #25D366; }
+.nubank-icon { background: transparent; }
+.instagram-icon { background: linear-gradient(135deg, #833AB4, #FD1D1D, #FCAF45); }
+.youtube-icon { background: #FF0000; }
+.settings-icon { background: #8E8E93; }
+.settings-icon svg { width: 32px; height: 32px; }
+.olx-icon { background: transparent; }
+.double-icon { background: #1a1a1a; }
+.phone-icon { background: #34C759; }
+.fortune-icon { background: transparent; }
+
+/* Home Indicator Container */
+.home-indicator-container {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 8px;
+}
+
+.home-indicator {
+    width: 128px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 9999px;
+}
+
+/* App Container */
+.app-container {
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    border-radius: 42px;
+    overflow: hidden;
+}
+
+/* ============================================
+   WHATSAPP
+   ============================================ */
+
+.wa-app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #111B21;
+}
+
+.wa-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 48px 16px 8px;
+    color: white;
+    font-size: 12px;
+}
+
+.wa-status-bar.chat { background: #1F2C34; }
+
+.wa-status-icons { display: flex; gap: 4px; }
+.wa-status-icons svg { width: 16px; height: 16px; }
+
+.wa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+}
+
+.wa-header-left { display: flex; align-items: center; gap: 12px; }
+
+.wa-back-btn {
+    background: none;
+    border: none;
+    color: #00A884;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.wa-title {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.wa-header-icons { display: flex; gap: 16px; }
+
+.wa-icon-btn {
+    background: none;
+    border: none;
+    color: #AEBAC1;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wa-icon-btn svg {
+    width: 20px;
+    height: 20px;
+}
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.wa-contacts-list::-webkit-scrollbar { display: none; }
+
+.wa-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.wa-contact-item:hover { background: #202C33; }
+
+.wa-avatar-container { position: relative; }
+
+.wa-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #2A3942;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.wa-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+
+.wa-online-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background: #00A884;
+    border-radius: 50%;
+    border: 2px solid #111B21;
+}
+
+.wa-online-dot.small { width: 10px; height: 10px; border-color: #1F2C34; }
+
+.wa-contact-info {
+    flex: 1;
+    min-width: 0;
+    border-bottom: 1px solid #222D34;
+    padding-bottom: 12px;
+}
+
+.wa-contact-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wa-contact-name {
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.wa-contact-time {
+    color: #8696A0;
+    font-size: 12px;
+}
+
+.wa-contact-time.unread { color: #00A884; }
+
+.wa-last-message {
+    color: #8696A0;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+.wa-unread-badge {
+    background: #00A884;
+    color: #111B21;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* WhatsApp Chat */
+.wa-chat {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #0B141A;
+}
+
+.wa-chat-header {
+    background: #1F2C34;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wa-chat-avatar-container { position: relative; }
+
+.wa-chat-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #2A3942;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+}
+
+.wa-chat-info { flex: 1; min-width: 0; }
+
+.wa-chat-name {
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.wa-chat-phone {
+    color: #8696A0;
+    font-size: 12px;
+}
+
+.wa-chat-actions { display: flex; gap: 16px; }
+
+.wa-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    scrollbar-width: none;
+    background: #0B141A url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23182229' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.wa-messages::-webkit-scrollbar { display: none; }
+
+.wa-message {
+    max-width: 75%;
+    padding: 6px 8px;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    position: relative;
+}
+
+.wa-message.sent {
+    background: #005C4B;
+    color: white;
+    margin-left: auto;
+    border-top-right-radius: 0;
+}
+
+.wa-message.received {
+    background: #1F2C34;
+    color: white;
+    margin-right: auto;
+    border-top-left-radius: 0;
+}
+
+.wa-msg-text {
+    font-size: 14px;
+    line-height: 1.4;
+    padding-right: 48px;
+}
+
+.wa-msg-meta {
+    position: absolute;
+    bottom: 4px;
+    right: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.wa-msg-time {
+    color: rgba(255,255,255,0.6);
+    font-size: 10px;
+}
+
+.wa-msg-check {
+    color: #53BDEB;
+    font-size: 12px;
+}
+
+.wa-input-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #1F2C34;
+}
+
+.wa-text-input {
+    flex: 1;
+    background: #2A3942;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 20px;
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
+
+.wa-text-input::placeholder { color: #8696A0; }
+
+.wa-send-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #00A884;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wa-send-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+}
+
+.wa-mic-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: #8696A0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.wa-mic-btn:hover {
+    color: white;
+}
+
+.wa-mic-btn.recording {
+    background: #FF4444;
+    color: white;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.wa-mic-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+}
+
+/* WhatsApp Menu Dropdown */
+.wa-menu-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 100;
+}
+
+.wa-dropdown-menu {
+    position: absolute;
+    top: 90px;
+    right: 12px;
+    background: #233138;
+    border-radius: 8px;
+    padding: 4px 0;
+    min-width: 180px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    animation: slideIn 0.15s ease;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.wa-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.wa-menu-item:hover {
+    background: #2A3942;
+}
+
+.wa-menu-item svg {
+    width: 20px;
+    height: 20px;
+    stroke: #8696A0;
+}
+
+/* WhatsApp Modal */
+.wa-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.wa-modal {
+    background: #1F2C34;
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    max-width: 250px;
+    animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.wa-modal.group-modal {
+    max-width: 260px;
+}
+
+.wa-modal.group-options-modal {
+    max-width: 260px;
+}
+
+.wa-modal h3 {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.wa-modal-field {
+    margin-bottom: 16px;
+}
+
+.wa-modal-field label {
+    display: block;
+    color: #8696A0;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.wa-modal-field input {
+    width: 100%;
+    background: #2A3942;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
+
+.wa-modal-field input::placeholder {
+    color: #8696A0;
+}
+
+.wa-modal-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #2A3942;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    color: white;
+    font-size: 32px;
+    font-weight: 600;
+    overflow: hidden;
+}
+
+.wa-modal-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.wa-modal-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.wa-modal-cancel {
+    flex: 1;
+    padding: 10px;
+    background: #2A3942;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.wa-modal-confirm {
+    flex: 1;
+    padding: 10px;
+    background: #00A884;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.wa-contact-select {
+    max-height: 150px;
+    overflow-y: auto;
+    background: #2A3942;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.wa-contact-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.wa-contact-checkbox:hover {
+    background: #374048;
+}
+
+.wa-contact-checkbox input {
+    width: 18px;
+    height: 18px;
+    accent-color: #00A884;
+}
+
+.wa-contact-checkbox-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #4A5568;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.wa-contact-checkbox span {
+    color: white;
+    font-size: 14px;
+}
+
+/* WhatsApp Group Options */
+.wa-group-info {
+    color: #8696A0;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.wa-group-members {
+    margin-bottom: 16px;
+}
+
+.wa-group-members h4 {
+    color: #8696A0;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.wa-group-member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #2A3942;
+}
+
+.wa-member-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #4A5568;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.wa-member-name {
+    flex: 1;
+    color: white;
+    font-size: 14px;
+}
+
+.wa-admin-badge {
+    background: #00A884;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.wa-remove-member {
+    background: none;
+    border: none;
+    color: #FF4444;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.wa-group-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    background: #2A3942;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.wa-group-action-btn.add svg {
+    stroke: #00A884;
+}
+
+.wa-group-action-btn.leave {
+    background: rgba(255,68,68,0.15);
+    color: #FF4444;
+}
+
+.wa-group-action-btn.leave svg {
+    stroke: #FF4444;
+}
+
+/* WhatsApp Recording Indicator */
+.wa-recording-indicator {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #FF4444;
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 14px;
+}
+
+.wa-recording-dot {
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* WhatsApp Audio Message */
+.wa-audio-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.wa-audio-play-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #00A884;
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.wa-audio-play-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.wa-audio-waveform {
+    flex: 1;
+    height: 20px;
+    background: linear-gradient(90deg, 
+        #8696A0 0%, #8696A0 10%, transparent 10%, transparent 15%,
+        #8696A0 15%, #8696A0 22%, transparent 22%, transparent 27%,
+        #8696A0 27%, #8696A0 38%, transparent 38%, transparent 43%,
+        #8696A0 43%, #8696A0 50%, transparent 50%, transparent 55%,
+        #8696A0 55%, #8696A0 68%, transparent 68%, transparent 73%,
+        #8696A0 73%, #8696A0 82%, transparent 82%, transparent 87%,
+        #8696A0 87%, #8696A0 95%, transparent 95%
+    );
+    background-size: 100% 100%;
+    border-radius: 2px;
+}
+
+.wa-audio-duration {
+    color: #8696A0;
+    font-size: 12px;
+    min-width: 35px;
+}
+
+/* WhatsApp Receipt Message */
+.wa-receipt-message {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 4px;
+}
+
+.wa-receipt-header {
+    color: #00A884;
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.wa-receipt-body p {
+    color: rgba(255,255,255,0.8);
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+/* WhatsApp Attach Button */
+.wa-attach-btn {
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: none;
+    color: #8696A0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.wa-attach-btn:hover { color: white; }
+
+.wa-attach-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+/* WhatsApp Attach Menu */
+.wa-attach-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 100;
+}
+
+.wa-attach-menu {
+    position: absolute;
+    bottom: 70px;
+    left: 12px;
+    background: #233138;
+    border-radius: 12px;
+    padding: 8px;
+    display: flex;
+    gap: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.wa-attach-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.wa-attach-option span {
+    color: #8696A0;
+    font-size: 11px;
+}
+
+.wa-attach-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wa-attach-icon.purple { background: #7F66FF; }
+.wa-attach-icon.green { background: #00A884; }
+.wa-attach-icon.red { background: #FF6B6B; }
+.wa-attach-icon.blue { background: #0093E9; }
+
+/* WhatsApp Image Preview */
+.wa-image-preview {
+    width: 100%;
+    height: 120px;
+    background: #2A3942;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.wa-image-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.wa-image-preview span {
+    color: #8696A0;
+    font-size: 12px;
+}
+
+/* WhatsApp Group Header in Modal */
+.wa-group-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.wa-group-header h3 {
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
+.wa-group-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #2A3942;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+    font-weight: 600;
+    overflow: hidden;
+}
+
+.wa-group-avatar-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* WhatsApp Image Message */
+.wa-msg-image {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 4px;
+}
+
+/* WhatsApp Call */
+.wa-call-screen {
+    height: 100%;
+    background: linear-gradient(180deg, #1a1a2e, #16213e);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 80px;
+}
+
+.wa-call-avatar-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.wa-call-name {
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.wa-call-status {
+    color: rgba(255,255,255,0.7);
+    font-size: 16px;
+    margin-top: 8px;
+}
+
+.wa-call-duration {
+    color: #34c759;
+    font-size: 18px;
+    margin-top: 8px;
+}
+
+.wa-end-call-btn {
+    position: absolute;
+    bottom: 60px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #e74c3c;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* ============================================
+   NUBANK
+   ============================================ */
+
+.nubank-app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: white;
+}
+
+.nubank-header {
+    background: #8A05BE;
+    padding: 0 16px 24px;
+}
+
+.nubank-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 48px 0 16px;
+    color: white;
+    font-size: 12px;
+}
+
+.nubank-status-bar.dark { color: white; padding: 48px 16px 8px; }
+.nubank-status-bar.purple { background: #8A05BE; padding: 48px 16px 8px; }
+
+.nubank-status-icons { display: flex; gap: 4px; }
+.nubank-status-icons svg { width: 16px; height: 16px; }
+
+.nubank-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.nubank-avatar {
+    width: 40px;
+    height: 40px;
+    background: #9A15CE;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: white;
+}
+
+.nubank-avatar svg {
+    width: 24px;
+    height: 24px;
+    stroke: white;
+}
+
+.nubank-header-actions { display: flex; gap: 12px; }
+
+.nubank-header-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nubank-header-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: white;
+}
+
+.nubank-greeting {
+    color: white;
+    font-size: 18px;
+}
+
+.nubank-content {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.nubank-content::-webkit-scrollbar { display: none; }
+
+.nubank-section {
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.nubank-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.nubank-section-title {
+    color: #333;
+    font-weight: 600;
+}
+
+.nubank-chevron {
+    color: #999;
+    font-size: 20px;
+}
+
+.nubank-balance {
+    color: #333;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.nubank-actions {
+    display: flex;
+    gap: 24px;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.nubank-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nubank-action-icon {
+    width: 56px;
+    height: 56px;
+    background: #f5f5f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #666;
+}
+
+.nubank-action-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: #666;
+}
+
+.nubank-action-label {
+    color: #666;
+    font-size: 12px;
+}
+
+.nubank-footer { padding: 16px; }
+
+.nubank-close-btn {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    border: 1px solid #8A05BE;
+    color: #8A05BE;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+/* Nubank Dark Screens */
+.nubank-dark {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #0D0D0D;
+}
+
+.nubank-dark.amount { background: #1A1A1A; }
+
+.nubank-nav {
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nubank-nav.purple { background: #8A05BE; }
+
+.nubank-back {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.nubank-nav-title {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.nubank-transfer-content {
+    flex: 1;
+    padding: 24px 16px;
+}
+
+.nubank-transfer-title {
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 24px;
+}
+
+.nubank-transfer-label {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.nubank-transfer-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #444;
+    color: white;
+    font-size: 18px;
+    padding: 8px 0;
+    outline: none;
+}
+
+.nubank-transfer-hint {
+    color: #666;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.nubank-arrow-btn {
+    position: absolute;
+    bottom: 80px;
+    right: 16px;
+    width: 56px;
+    height: 56px;
+    background: #8A05BE;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.nubank-confirm-footer {
+    padding: 16px;
+}
+
+.nubank-confirm-btn {
+    width: 100%;
+    padding: 14px;
+    background: #8A05BE;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.nubank-recipient-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 32px 0;
+}
+
+.nubank-recipient-avatar {
+    width: 64px;
+    height: 64px;
+    background: #2A2A2A;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.nubank-recipient-name {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.nubank-bank-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid #333;
+    color: white;
+    font-size: 14px;
+}
+
+.nubank-bank-icon {
+    width: 32px;
+    height: 32px;
+    background: #8A05BE;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.nubank-amount-input-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.nubank-currency {
+    color: white;
+    font-size: 28px;
+}
+
+.nubank-amount-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 36px;
+    font-weight: 700;
+    outline: none;
+}
+
+.nubank-available {
+    color: #666;
+    font-size: 14px;
+}
+
+.nubank-error {
+    color: #ff4444;
+    font-size: 14px;
+    margin-top: 16px;
+}
+
+/* Nubank Receipt */
+.nubank-receipt {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #f5f5f5;
+}
+
+.nubank-receipt-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 24px;
+    margin-top: -16px;
+}
+
+.nubank-receipt-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.nubank-receipt-title {
+    color: #333;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.nubank-receipt-card {
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.nubank-receipt-value {
+    color: #333;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.nubank-receipt-to {
+    color: #666;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.nubank-receipt-to span { font-weight: 600; }
+
+.nubank-receipt-time {
+    color: #999;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.nubank-send-receipt-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #8A05BE;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Nubank Extrato */
+.nubank-extrato-content {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.nubank-extrato-label {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.nubank-transactions { display: flex; flex-direction: column; gap: 12px; }
+
+.nubank-transaction {
+    background: #1A1A1A;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.nubank-tx-icon {
+    width: 40px;
+    height: 40px;
+    background: #00A86B;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    margin-right: 12px;
+}
+
+.nubank-tx-info { flex: 1; }
+
+.nubank-tx-name {
+    color: white;
+    font-weight: 500;
+    display: block;
+}
+
+.nubank-tx-time {
+    color: #666;
+    font-size: 12px;
+}
+
+.nubank-tx-value {
+    color: #00A86B;
+    font-weight: 700;
+}
+
+/* ============================================
+   SETTINGS
+   ============================================ */
+
+.settings-app {
+    height: 100%;
+    background: #F2F2F7;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.settings-app::-webkit-scrollbar { display: none; }
+
+.settings-header {
+    padding: 56px 16px 8px;
+}
+
+.settings-back {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: #007AFF;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.settings-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: black;
+}
+
+.settings-group {
+    margin: 24px 16px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.settings-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    width: 100%;
+    background: white;
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    text-align: left;
+}
+
+.settings-item:last-child { border-bottom: none; }
+
+.settings-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.settings-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.settings-icon.blue { background: #007AFF; }
+.settings-icon.purple { background: #5856D6; }
+.settings-icon.green { background: #34C759; }
+.settings-icon.cyan { background: #32ADE6; }
+
+.settings-item-content { flex: 1; }
+
+.settings-item-label {
+    flex: 1;
+    font-size: 16px;
+    color: black;
+}
+
+.settings-item-value {
+    color: #8E8E93;
+    font-size: 16px;
+}
+
+.settings-chevron {
+    color: #C7C7CC;
+    font-size: 20px;
+}
+
+.settings-check {
+    color: #007AFF;
+    font-size: 18px;
+}
+
+.settings-toggle {
+    display: flex;
+    margin: 16px;
+    background: #E5E5EA;
+    border-radius: 8px;
+    padding: 2px;
+}
+
+.settings-toggle-btn {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    background: transparent;
+    cursor: pointer;
+}
+
+.settings-toggle-btn.active {
+    background: white;
+    color: black;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.wallpaper-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 0 16px;
+}
+
+.wallpaper-item {
+    aspect-ratio: 9/16;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 3px solid transparent;
+    position: relative;
+    cursor: pointer;
+}
+
+.wallpaper-item.selected { border-color: #007AFF; }
+
+.wallpaper-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.wallpaper-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: #007AFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+}
+
+.wallpaper-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.6));
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.settings-description {
+    color: #8E8E93;
+    font-size: 14px;
+    padding: 0 16px;
+    margin-bottom: 16px;
+}
+
+.settings-current {
+    color: #007AFF;
+    font-size: 14px;
+    padding: 0 16px;
+    margin-top: 16px;
+}
+
+/* ============================================
+   OLX
+   ============================================ */
+
+.olx-app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #F5F5F5;
+}
+
+.olx-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 48px 16px 8px;
+    background: #6E0AD6;
+    color: white;
+    font-size: 12px;
+}
+
+.olx-header {
+    background: #6E0AD6;
+    padding: 0 16px 16px;
+}
+
+.olx-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.olx-back-btn, .olx-add-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.olx-title {
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.olx-search {
+    position: relative;
+}
+
+.olx-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+}
+
+.olx-search-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.olx-search-input {
+    width: 100%;
+    background: white;
+    border: none;
+    padding: 10px 16px 10px 36px;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.olx-listings {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    align-content: start;
+    scrollbar-width: none;
+}
+
+.olx-listings::-webkit-scrollbar { display: none; }
+
+.olx-listing {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.olx-listing-image {
+    aspect-ratio: 1;
+    background: #ddd;
+    position: relative;
+}
+
+.olx-listing-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.olx-listing-category {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.olx-listing-info { padding: 8px; }
+
+.olx-listing-price {
+    color: #6E0AD6;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.olx-listing-title {
+    color: #333;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.olx-listing-meta {
+    color: #999;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.olx-form {
+    flex: 1;
+    padding: 16px;
+    background: white;
+    overflow-y: auto;
+}
+
+.olx-form-group {
+    margin-bottom: 16px;
+}
+
+.olx-form-group label {
+    display: block;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.olx-form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.olx-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.olx-category {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px;
+    border-radius: 8px;
+    background: #f5f5f5;
+    border: none;
+    font-size: 12px;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+}
+
+.olx-category.active, .olx-category.selected {
+    background: #6E0AD6;
+    color: white;
+}
+
+.olx-submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: #6E0AD6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* OLX Modal */
+.olx-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.olx-modal {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    max-width: 260px;
+}
+
+.olx-modal h3 {
+    color: #6E0AD6;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.olx-modal .olx-form {
+    padding: 0;
+    background: transparent;
+}
+
+.olx-modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.olx-modal-cancel {
+    flex: 1;
+    padding: 10px;
+    background: #f5f5f5;
+    border: none;
+    border-radius: 8px;
+    color: #666;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.olx-modal-confirm {
+    flex: 1;
+    padding: 10px;
+    background: #6E0AD6;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ============================================
+   PHONE
+   ============================================ */
+
+.phone-app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #1C1C1E;
+}
+
+.phone-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 48px 16px 8px;
+    color: white;
+    font-size: 12px;
+}
+
+.phone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+}
+
+.phone-back {
+    background: none;
+    border: none;
+    color: #34C759;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.phone-title {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.phone-display {
+    padding: 24px 16px;
+    text-align: center;
+    min-height: 60px;
+}
+
+.phone-number {
+    color: white;
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+.phone-save-container {
+    display: none;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.phone-save-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #2C2C2E;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: #34C759;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.phone-save-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: #34C759;
+}
+
+.phone-keypad {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 16px;
+}
+
+.keypad-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.keypad-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #3A3A3C;
+    border: none;
+    color: white;
+    font-size: 24px;
+    font-weight: 300;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.keypad-btn:active { background: #4A4A4C; transform: scale(0.95); }
+
+.keypad-btn.clear {
+    font-size: 12px;
+    color: #FF3B30;
+}
+
+.keypad-letters {
+    font-size: 8px;
+    color: #8E8E93;
+    margin-top: 2px;
+}
+
+.phone-delete-row {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+}
+
+.phone-delete-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: #8E8E93;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.phone-delete-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke: #8E8E93;
+}
+
+.phone-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 60;
+}
+
+.phone-modal {
+    background: #2C2C2E;
+    border-radius: 16px;
+    padding: 16px;
+    width: 100%;
+}
+
+.phone-modal h3 {
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.phone-modal-field {
+    margin-bottom: 12px;
+}
+
+.phone-modal-field label {
+    color: #8E8E93;
+    font-size: 12px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.phone-modal-field input {
+    width: 100%;
+    background: #3A3A3C;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
+
+.phone-modal-number {
+    background: #3A3A3C;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+}
+
+.phone-modal-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.phone-modal-cancel, .phone-modal-save {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.phone-modal-cancel {
+    background: #3A3A3C;
+    color: white;
+}
+
+.phone-modal-save {
+    background: #34C759;
+    color: white;
+    font-weight: 600;
+}
+
+/* ============================================
+   DOUBLE GAME
+   ============================================ */
+
+.double-game-app {
+    position: absolute;
+    inset: 0;
+    background: #0D0D0D;
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+    overflow: hidden;
+    padding-top: 32px;
+    border-radius: 42px;
+}
+
+.double-close-btn {
+    position: absolute;
+    right: 12px;
+    top: 40px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 51;
+}
+
+.double-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 52;
+    padding: 16px;
+}
+
+.double-modal {
+    background: #1E1E1E;
+    border-radius: 12px;
+    padding: 16px;
+    width: 100%;
+    max-width: 200px;
+}
+
+.double-modal-title {
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.double-modal-input-group {
+    background: #0D0D0D;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+}
+
+.double-modal-label {
+    color: rgba(255,255,255,0.4);
+    font-size: 10px;
+    display: block;
+}
+
+.double-modal-input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    outline: none;
+}
+
+.double-modal-hint {
+    color: rgba(255,255,255,0.4);
+    font-size: 10px;
+    margin-bottom: 12px;
+}
+
+.double-modal-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.double-modal-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.double-modal-btn.cancel { background: #333; color: white; }
+.double-modal-btn.confirm { background: #FF0032; color: white; }
+
+.double-header-bar {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.double-wallet-btn {
+    background: #1E1E1E;
+    border: none;
+    padding: 6px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.double-wallet-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: white;
+}
+
+.double-balance-pill {
+    background: #1E1E1E;
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.double-balance-text {
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.double-balance-icon {
+    width: 16px;
+    height: 16px;
+    background: #FF0032;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    color: white;
+}
+
+.double-balance-icon svg {
+    width: 10px;
+    height: 10px;
+    stroke: white;
+}
+
+.double-deposit-btn {
+    background: #FF0032;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.double-history-bar {
+    background: #141414;
+    margin: 8px 12px;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.double-history-items {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.double-stats-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.4);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.double-dice-item {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.double-dice-item.small { width: 28px; height: 28px; font-size: 10px; }
+.double-dice-item.medium { width: 40px; height: 40px; font-size: 14px; }
+.double-dice-item.large { width: 48px; height: 48px; font-size: 16px; }
+.double-dice-item.center { transform: scale(1.1); }
+
+.double-timer-bar { padding: 0 12px 8px; }
+
+.double-timer-text {
+    display: block;
+    background: #FF0032;
+    border-radius: 20px;
+    padding: 6px 20px;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.double-carousel-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: #141414;
+    margin: 0 12px;
+    border-radius: 8px;
+}
+
+.double-carousel {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.1s;
+}
+
+.double-selector-frame {
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.double-selector-arrow {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+}
+
+.double-selector-arrow.top { border-top: 6px solid #444; }
+.double-selector-arrow.bottom { border-bottom: 6px solid #444; }
+
+.double-controls-panel {
+    background: #141414;
+    margin: 8px 12px 12px;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.double-mode-tabs {
+    display: flex;
+    background: #0D0D0D;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.double-mode-tab {
+    flex: 1;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+}
+
+.double-mode-tab.active { background: #1E1E1E; color: white; }
+
+.double-bet-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.double-bet-input-group {
+    flex: 1;
+    background: #0D0D0D;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.double-bet-label {
+    color: rgba(255,255,255,0.4);
+    font-size: 10px;
+    display: block;
+}
+
+.double-bet-input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    outline: none;
+}
+
+.double-currency {
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.double-bet-action {
+    background: #1E1E1E;
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.double-color-selection { margin-bottom: 12px; }
+
+.double-color-label {
+    color: rgba(255,255,255,0.6);
+    font-size: 10px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.double-color-buttons { display: flex; gap: 8px; }
+
+.double-color-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.double-color-btn.red { background: #FF0032; color: white; }
+.double-color-btn.white { background: white; color: #FF0032; }
+.double-color-btn.black { background: #1E1E1E; color: white; }
+.double-color-btn.selected { box-shadow: 0 0 0 2px white; }
+.double-color-btn.selected.white { box-shadow: 0 0 0 2px #FF0032; }
+.double-color-btn.disabled { opacity: 0.5; cursor: not-allowed; }
+
+.double-start-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    border: none;
+    background: #FF0032;
+    cursor: pointer;
+}
+
+.double-start-btn.disabled { background: rgba(255,0,50,0.4); cursor: not-allowed; }
+
+/* ============================================
+   FORTUNE TIGER
+   ============================================ */
+
+.fortune-loading-screen {
+    position: absolute;
+    inset: 0;
+    background: #1a0000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 42px;
+}
+
+.fortune-loading-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.fortune-loading-bar {
+    position: absolute;
+    bottom: 80px;
+    width: 120px;
+    height: 8px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.fortune-loading-progress {
+    height: 100%;
+    background: #ffd700;
+    border-radius: 4px;
+    animation: loading 2.5s ease-in-out forwards;
+}
+
+@keyframes loading {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+.fortune-loading-text {
+    position: absolute;
+    bottom: 60px;
+    color: white;
+    font-size: 12px;
+}
+
+.fortune-game {
+    position: absolute;
+    inset: 0;
+    border-radius: 42px;
+    overflow: hidden;
+}
+
+.fortune-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fortune-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 10;
+}
+
+.fortune-close-btn {
+    position: absolute;
+    top: 56px;
+    right: 16px;
+    z-index: 30;
+    width: 32px;
+    height: 32px;
+    background: rgba(0,0,0,0.5);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.fortune-slots {
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 8px;
+}
+
+.fortune-slot {
+    width: 56px;
+    height: 56px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fortune-slot img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.fortune-result {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 18px;
+    animation: bounce 0.5s ease-in-out;
+}
+
+.fortune-result.win { background: #22c55e; color: white; }
+.fortune-result.lose { background: #ef4444; color: white; }
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.1); }
+}
+
+.fortune-spin-btn {
+    position: absolute;
+    bottom: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    width: 64px;
+    height: 64px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.fortune-spin-btn:hover { transform: translateX(-50%) scale(1.1); }
+.fortune-spin-btn:active { transform: translateX(-50%) scale(0.95); }
+
+.fortune-spin-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.fortune-spin-btn.spinning img { animation: spin 1s linear infinite; }
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   PLACEHOLDER
+   ============================================ */
+
+.placeholder-app {
+    height: 100%;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.placeholder-content {
+    text-align: center;
+    color: white;
+}
+
+.placeholder-icon { font-size: 60px; margin-bottom: 20px; }
+.placeholder-content h2 { font-size: 24px; margin-bottom: 10px; }
+.placeholder-content p { color: #888; }
+
+.placeholder-back {
+    margin-top: 30px;
+    padding: 10px 20px;
+    background: #333;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Hide scrollbars everywhere */
+*::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* Scale Options */
+.scale-option {
+    position: relative;
+}
+
+.scale-option.selected {
+    background: rgba(0, 122, 255, 0.1);
+}
+
+.scale-check {
+    margin-left: auto;
+}
