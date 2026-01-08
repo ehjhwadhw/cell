@@ -118,9 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close button click - triggers CEF event to close browser
     document.getElementById('closePhoneBtn').addEventListener('click', closePhone);
     
-    // Celular começa oculto - espera evento 'celularShow' do servidor
-    elements.phoneContainer.style.display = 'none';
-    
     // Home indicator click - close phone when on home screen
     elements.homeIndicator.addEventListener('click', handleHomeIndicatorClick);
 
@@ -131,14 +128,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Registrar evento CEF para mostrar o celular
-    if (typeof Cef !== 'undefined' && Cef.registerEventCallback) {
-        Cef.registerEventCallback('celularShow', function() {
-            openPhoneWithCommand();
-        });
+    // Detectar se está no navegador (dev mode) ou no CEF (produção)
+    const isBrowser = (typeof Cef === 'undefined');
+    
+    if (isBrowser) {
+        // Modo navegador: mostrar imediatamente
+        elements.phoneContainer.style.display = 'block';
+        setTimeout(() => {
+            elements.phoneContainer.classList.add('visible');
+        }, 50);
+        console.log('[Celular2] Modo navegador - exibindo imediatamente');
+    } else {
+        // Modo CEF: começa oculto, espera evento do servidor
+        elements.phoneContainer.style.display = 'none';
+        
+        if (Cef.registerEventCallback) {
+            Cef.registerEventCallback('celularShow', function() {
+                openPhoneWithCommand();
+            });
+        }
+        console.log('[Celular2] Modo CEF - aguardando comando /celular');
     }
-
-    console.log('[Celular2] Inicializado (aguardando comando /celular)');
 });
 
 // ============================================
