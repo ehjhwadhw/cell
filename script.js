@@ -118,8 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close button click - triggers CEF event to close browser
     document.getElementById('closePhoneBtn').addEventListener('click', closePhone);
     
-    // Auto-open phone when page loads (CEF will load this page via /celular command)
-    openPhoneWithCommand();
+    // Celular começa oculto - espera evento 'celularShow' do servidor
+    elements.phoneContainer.style.display = 'none';
     
     // Home indicator click - close phone when on home screen
     elements.homeIndicator.addEventListener('click', handleHomeIndicatorClick);
@@ -131,7 +131,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    console.log('[Celular2] Inicializado com sucesso!');
+    // Registrar evento CEF para mostrar o celular
+    if (typeof Cef !== 'undefined' && Cef.registerEventCallback) {
+        Cef.registerEventCallback('celularShow', function() {
+            openPhoneWithCommand();
+        });
+    }
+
+    console.log('[Celular2] Inicializado (aguardando comando /celular)');
 });
 
 // ============================================
@@ -180,6 +187,13 @@ function handleHomeIndicatorClick() {
 }
 
 function closePhone() {
+    // Disparar evento CEF IMEDIATAMENTE para liberar o foco do jogo
+    if (typeof Cef !== 'undefined') {
+        if (Cef.trigger) Cef.trigger('celularClose');
+        else if (Cef.emit) Cef.emit('celularClose');
+        else if (Cef.call) Cef.call('celularClose');
+    }
+    
     elements.phoneContainer.classList.remove('visible');
     elements.phoneContainer.classList.add('closing');
     
@@ -191,13 +205,6 @@ function closePhone() {
         state.isLocked = true;
         elements.lockScreen.classList.remove('hidden');
         elements.homeScreen.classList.add('hidden');
-        
-        // Trigger CEF event to destroy browser on server
-        if (typeof Cef !== 'undefined') {
-            if (Cef.trigger) Cef.trigger('celularClose');
-            else if (Cef.emit) Cef.emit('celularClose');
-            else if (Cef.call) Cef.call('celularClose');
-        }
     }, 500);
     
     console.log('[Celular2] Celular fechado');
